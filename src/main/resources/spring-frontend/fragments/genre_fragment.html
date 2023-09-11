@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>genreFragment</title>
+</head>
+<body th:fragment="genreFragment (genres)">
+    <div class="Tag" th:each="subGenre : ${genres}" th:if="${subGenre.subGenres.size()} == 0">
+        <div class="Tag">
+            <a href="/genres/slug.html" th:text="${subGenre.name}" th:href="@{/genres/{slug}(slug = ${subGenre.slug})}">Драматургия</a>
+            <span class="undefined-amount" th:text="${'(' + subGenre.booksCount + ')'}">(15638)</span>
+        </div>
+    </div>
+    <div class="Tags" th:each="subGenre : ${genres}" th:if="${subGenre.subGenres.size()} != 0">
+        <div class="Tags-title">
+            <div class="Tag">
+                <a href="/genres/slug.html" th:text="${subGenre.name}" th:href="@{/genres/{slug}(slug = ${subGenre.slug})}">Лёгкое чтение</a>
+                <span class="undefined-amount" th:text="${'(' + subGenre.booksCount + ')'}">(15638)</span>
+            </div>
+        </div>
+        <div th:replace="fragments/genre_fragment :: genreFragment(${subGenre.subGenres})"></div>
+    </div>
+</body>
+</html>
